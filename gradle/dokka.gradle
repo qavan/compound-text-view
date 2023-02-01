@@ -14,7 +14,7 @@ dokka {
 
         sourceLink {
             path = "src/main/java"
-            url = "https://github.com/lndmflngs/compound-text-view/tree/master/compound-library/src/main/java"
+            url = "https://github.com/qavan/compound-text-view/tree/master/compound-library/src/main/java"
             lineSuffix = "#L"
         }
     }

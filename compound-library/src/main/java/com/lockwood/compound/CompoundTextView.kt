@@ -25,6 +25,7 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.drawable.updateBounds
 import androidx.core.widget.addTextChangedListener
 import com.lockwood.compound.Position.BOTTOM
@@ -35,10 +36,7 @@ import com.lockwood.compound.delegate.CompoundArrayDelegate
 import com.lockwood.compound.delegate.CompoundArrayPositionDelegate
 import com.lockwood.compound.delegate.CompoundDrawableDelegate
 import com.lockwood.compound.extenions.*
-import com.lockwood.compound.transofrmation.GravityTransformation
-import com.lockwood.drawable.transformation.SizeTransformation
-import com.lockwood.drawable.transformation.TintTransformation
-import com.lockwood.drawable.transformation.extenions.buildDrawable
+import com.lockwood.compound.utils.copyWithGravity
 import kotlin.math.abs
 
 /**
@@ -732,49 +730,37 @@ open class CompoundTextView @JvmOverloads constructor(
      */
     protected fun updateCompoundDrawables() {
         // check if is nothing to update
-        val isNothingToUpdate = gravityDrawables.filterNotNull().isNullOrEmpty()
+        val isNothingToUpdate = gravityDrawables.filterNotNull().isEmpty()
         if (isNothingToUpdate) {
             updateCompoundDrawables(null, null, null, null)
             return
         }
 
-        val changedDrawables = gravityDrawables.mapIndexed { position, source ->
+        val changedDrawables: List<Drawable?> = gravityDrawables.mapIndexed { position, source ->
             if (source != null) {
-
-                //region Default Transformations
                 val size = drawablesSize[position]
                 val tint = drawablesTint[position]
 
-                val defaultTransformations = arrayOf(
-                    TintTransformation(tint),
-                    SizeTransformation(size)
-                )
-                // endregion
+                DrawableCompat.wrap(source).mutate().apply {
+                    if (!useCustomTransformation) {
+                        updateBounds(0, 0, size, size)
+                        DrawableCompat.setTint(this, tint)
+                    }
+                }
 
-                //region Gravity Transformations
                 val padding = drawablesPadding[position]
                 val gravity = drawablesGravity[position]
-
-                val gravityTransformation = GravityTransformation(gravity, padding)
-                // endregion
-
-                buildDrawable(context, source) {
-                    if (!useCustomTransformation) {
-                        defaultTransformations.forEach { append(it) }
-                    }
-                    append(gravityTransformation)
-                }
+                source.copyWithGravity(context = context, gravity = gravity, padding = padding)
             } else {
                 null
             }
         }
 
-
         updateCompoundDrawables(
-            start = changedDrawables[START],
-            top = changedDrawables[TOP],
-            end = changedDrawables[END],
-            bottom = changedDrawables[BOTTOM]
+            changedDrawables[START],
+            changedDrawables[TOP],
+            changedDrawables[END],
+            changedDrawables[BOTTOM]
         )
     }
 
