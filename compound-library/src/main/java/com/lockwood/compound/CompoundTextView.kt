@@ -741,7 +741,7 @@ open class CompoundTextView @JvmOverloads constructor(
                 val size = drawablesSize[position]
                 val tint = drawablesTint[position]
 
-                DrawableCompat.wrap(source).mutate().apply {
+                val newSource = DrawableCompat.wrap(source).mutate().apply {
                     if (!useCustomTransformation) {
                         updateBounds(0, 0, size, size)
                         DrawableCompat.setTint(this, tint)
@@ -750,7 +750,7 @@ open class CompoundTextView @JvmOverloads constructor(
 
                 val padding = drawablesPadding[position]
                 val gravity = drawablesGravity[position]
-                source.copyWithGravity(context = context, gravity = gravity, padding = padding)
+                newSource.copyWithGravity(context = context, gravity = gravity, padding = padding)
             } else {
                 null
             }
