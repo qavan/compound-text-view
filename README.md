@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/license-Apache%202-red.svg?logo=license)](https://www.apache.org/licenses/LICENSE-2.0)
 [![](https://img.shields.io/badge/docs-dokka-blue.svg?logo=kotlin)](https://github.com/lndmflngs/compound-text-view/blob/master/docs/compound-library/index.md)
 ![Android CI](https://github.com/lndmflngs/compound-text-view/workflows/Android%20CI/badge.svg?branch=master)
-[![](https://jitpack.io/v/lndmflngs/compound-text-view.svg)](https://jitpack.io/#lndmflngs/compound-text-view)
+[![](https://jitpack.io/v/qavan/compound-text-view.svg)](https://jitpack.io/#lndmflngs/compound-text-view)
 
 Change gravity of Image Drawable in TextView 🌌
 
