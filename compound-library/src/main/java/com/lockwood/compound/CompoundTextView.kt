@@ -743,10 +743,11 @@ open class CompoundTextView @JvmOverloads constructor(
                 var newSource = DrawableCompat.wrap(source).mutate()
                 if (!useCustomTransformation) {
                     val tint = drawablesTint[position]
-                    DrawableCompat.setTint(newSource,  tint)
+                    if (tint != DEFAULT_TINT_COLOR)
+                        DrawableCompat.setTint(newSource,  tint)
 
                     val size = drawablesSize[position]
-                    if (size != 0)
+                    if (size != DEFAULT_SIZE)
                         newSource = BitmapDrawable(context.resources, newSource.toBitmap(width = size, height = size))
                 }
 
