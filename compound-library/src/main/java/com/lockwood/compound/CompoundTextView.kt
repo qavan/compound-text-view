@@ -745,6 +745,8 @@ open class CompoundTextView @JvmOverloads constructor(
                         val tint = drawablesTint[position]
                         if (tint != -1)
                             DrawableCompat.setTint(this,  tint)
+                        else
+                            DrawableCompat.setTint(this,  currentTextColor)
                     }
                 }
 
