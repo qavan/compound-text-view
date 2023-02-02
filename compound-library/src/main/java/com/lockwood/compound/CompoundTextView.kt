@@ -738,13 +738,13 @@ open class CompoundTextView @JvmOverloads constructor(
 
         val changedDrawables: List<Drawable?> = gravityDrawables.mapIndexed { position, source ->
             if (source != null) {
-                val size = drawablesSize[position]
-                val tint = drawablesTint[position]
-
                 val newSource = DrawableCompat.wrap(source).mutate().apply {
                     if (!useCustomTransformation) {
+                        val size = drawablesSize[position]
                         updateBounds(0, 0, size, size)
-                        DrawableCompat.setTint(this, context.color(tint))
+                        val tint = drawablesTint[position]
+                        if (tint != -1)
+                            DrawableCompat.setTint(this,  tint)
                     }
                 }
 
