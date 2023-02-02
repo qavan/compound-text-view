@@ -749,7 +749,7 @@ open class CompoundTextView @JvmOverloads constructor(
                         DrawableCompat.setTint(newSource,  currentTextColor)
 
                     val size = drawablesSize[position]
-                    BitmapDrawable(context.resources, newSource.toBitmap(width = size, height = size))
+                    newSource = BitmapDrawable(context.resources, newSource.toBitmap(width = size, height = size))
                 }
 
                 val padding = drawablesPadding[position]
