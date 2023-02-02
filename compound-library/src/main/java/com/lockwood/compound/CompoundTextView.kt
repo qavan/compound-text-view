@@ -19,6 +19,7 @@ package com.lockwood.compound
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.AttributeSet
@@ -26,6 +27,7 @@ import android.view.Gravity
 import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.updateBounds
 import androidx.core.widget.addTextChangedListener
 import com.lockwood.compound.Position.BOTTOM
@@ -738,16 +740,16 @@ open class CompoundTextView @JvmOverloads constructor(
 
         val changedDrawables: List<Drawable?> = gravityDrawables.mapIndexed { position, source ->
             if (source != null) {
-                val newSource = DrawableCompat.wrap(source).mutate().apply {
-                    if (!useCustomTransformation) {
-                        val size = drawablesSize[position]
-                        updateBounds(0, 0, size, size)
-                        val tint = drawablesTint[position]
-                        if (tint != -1)
-                            DrawableCompat.setTint(this,  tint)
-                        else
-                            DrawableCompat.setTint(this,  currentTextColor)
-                    }
+                var newSource = DrawableCompat.wrap(source).mutate()
+                if (!useCustomTransformation) {
+                    val tint = drawablesTint[position]
+                    if (tint != -1)
+                        DrawableCompat.setTint(newSource,  tint)
+                    else
+                        DrawableCompat.setTint(newSource,  currentTextColor)
+
+                    val size = drawablesSize[position]
+                    BitmapDrawable(context.resources, newSource.toBitmap(width = size, height = size))
                 }
 
                 val padding = drawablesPadding[position]
