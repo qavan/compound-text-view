@@ -744,7 +744,7 @@ open class CompoundTextView @JvmOverloads constructor(
                 val newSource = DrawableCompat.wrap(source).mutate().apply {
                     if (!useCustomTransformation) {
                         updateBounds(0, 0, size, size)
-                        DrawableCompat.setTint(this, tint)
+                        DrawableCompat.setTint(this, context.color(tint))
                     }
                 }
 
